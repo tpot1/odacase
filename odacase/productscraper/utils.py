@@ -16,7 +16,7 @@ def scrape(url, product_identifier, name_identifier, unit_price_identifier):
     for product_html in products_html:
         name = product_html.xpath(name_identifier)[0].text
         unit_price = product_html.xpath(unit_price_identifier)[0].text
-        products.append(Product(name=name, price=unit_price))
+        products.append(Product(name=name, price=unit_price, url=url))
 
     return products
 

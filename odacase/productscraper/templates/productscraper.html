@@ -27,11 +27,13 @@
     {% if hasSearched %}
     <table>
         <tr>
-            <th>Product Name</th>
-            <th>Product Price</th>
+            <th>Link</th>
+            <th>Name</th>
+            <th>Price</th>
           </tr>
         {% for product in products %}
         <tr>
+            <td><a href={{ product.url }}>{{ product.url }}</a></td>
             <td>{{ product.name }}</td>
             <td>{{ product.price }}</td>
         </tr>
