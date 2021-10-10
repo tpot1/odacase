@@ -29,9 +29,11 @@ def crawl(base_url, whitelist):
     # find additional links from base url
     links = doc.xpath('*//a/@href')
     # Filter out links not in whitelist
+    whitelist_items = whitelist.split(',')
     valid_links = [base_url]
     for l in links:
-        if re.search("^"+whitelist, l):
-            valid_links.append(base_url + l)
-    
+        for w in whitelist_items:
+            if re.search("^"+w, l):
+                valid_links.append(base_url + l)
+    print(valid_links)
     return valid_links
