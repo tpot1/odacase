@@ -18,7 +18,7 @@ def scrape(url, product_identifier, attributes):
         for attribute in attributes:
             product['url'] = url
             product[attribute.attribute_name] = product_html.xpath(attribute.attribute_xpath)[0].text
-            products.append(product)
+        products.append(product)
 
     return products
 
