@@ -1,0 +1,42 @@
+{% extends 'base.html' %} 
+
+{% block body %}
+<div>
+    <h1>Product Scraper</h1>
+    <form method='POST'>
+        {% csrf_token %}
+        <div class='product-scraper-form'>
+            <label>Base URL</label>
+            <input name='base_url' class='search-config' value='https://oda.com'/>
+            
+            <label>Crawler whitelist (comma separated)</label>
+            <input name='whitelist' class='search-config' value='/no/categories'/>
+
+            <label>Enter the x-path identifier for each individual product</label>
+            <input name='product_identifier' class='search-config' value='//*[@class="product-list-item "]'/>
+            
+            <label>Enter the x-path identifier for the product name</label>
+            <input name='name_identifier' class='search-config' value='.//*[@class="name"]/div[1]'/>
+
+            <label>Enter the x-path identifier for the product unit price</label>
+            <input name='unit_price_identifier' class='search-config' value='.//*[@class="unit-price"]'/>
+
+            <input type='submit' class='search-bar-btn' value='Go!'/>
+        </div>
+    </form>
+    {% if hasSearched %}
+    <table>
+        <tr>
+            <th>Product Name</th>
+            <th>Product Price</th>
+          </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.price }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+{% endblock body %}

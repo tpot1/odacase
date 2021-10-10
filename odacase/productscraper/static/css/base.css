@@ -1,0 +1,22 @@
+body {
+    margin: 20px;
+}
+
+.product-scraper-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 700px;
+}
+
+.product-scraper-form .search-bar {
+    width: 700px;
+}
+
+.product-scraper-form .search-config {
+    width: 350px;
+}
+
+.product-scraper-form .search-bar-btn {
+    width: 100px;
+}
