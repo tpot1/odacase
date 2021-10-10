@@ -1,20 +1,26 @@
 from django.shortcuts import render
 from .utils import crawl, scrape
+from .models import PSConfig
 import csv
 from django.http import HttpResponse
 
-def productscraper(request, template='productscraper.html'):
+def productscraper(request, configId, template='productscraper.html'):
     context = {}
-    context['hasSearched'] = False
+    config = PSConfig.objects.get(pk=configId)
     if request.method == 'GET':
+        context['base_url'] = config.base_url
+        context['whitelist'] = config.whitelist
+        context['product_xpath'] = config.product_xpath
+        context['attributes'] = []
+        for attribute in config.psattribute_set.all():
+            context['attributes'].append(attribute)
         return render(request, template, context)
     if request.method == 'POST':
         # Retrieve form attributes
-        base_url = request.POST.get("base_url", "")
-        whitelist = request.POST.get("whitelist", "")
-        product_identifier = request.POST.get("product_identifier", "")
-        name_identifier = request.POST.get("name_identifier", "")
-        unit_price_identifier = request.POST.get("unit_price_identifier", "")
+        base_url = config.base_url
+        whitelist = config.whitelist
+        product_identifier = config.product_xpath
+        attributes = config.psattribute_set.all()
 
         # Crawl from base url to find other pages on site, filtered by whitelist
         links = crawl(base_url, whitelist)
@@ -23,7 +29,7 @@ def productscraper(request, template='productscraper.html'):
         products = []
         for link in links:
             print('Scraping: ' + link)
-            newProducts = scrape(link, product_identifier, name_identifier, unit_price_identifier)
+            newProducts = scrape(link, product_identifier, attributes)
             products = products + newProducts
             print(len(products))
         
@@ -34,8 +40,16 @@ def productscraper(request, template='productscraper.html'):
         )
 
         writer = csv.writer(response)
-        writer.writerow(['Link', 'Product Name', 'Product Unit Price'])
+        # Write the headings
+        column_headings = ['Link']
+        for attribute in config.psattribute_set.all():
+            column_headings.append(attribute.attribute_name)
+        writer.writerow(column_headings)
+        # Write the data
         for product in products:
-            writer.writerow([product.url, product.name, product.price])
+            row = [product['url']]
+            for attribute in config.psattribute_set.all():
+                row.append(product[attribute.attribute_name])
+            writer.writerow(row)
         
         return response

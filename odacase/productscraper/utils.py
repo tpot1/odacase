@@ -3,7 +3,7 @@ import lxml.html
 from .product import Product
 import re
 
-def scrape(url, product_identifier, name_identifier, unit_price_identifier):
+def scrape(url, product_identifier, attributes):
     products = []
     # Use lxml to parse the url into an html tree
     html = requests.get(url)
@@ -14,9 +14,11 @@ def scrape(url, product_identifier, name_identifier, unit_price_identifier):
 
     # Loop over products and extract their metadata
     for product_html in products_html:
-        name = product_html.xpath(name_identifier)[0].text
-        unit_price = product_html.xpath(unit_price_identifier)[0].text
-        products.append(Product(name=name, price=unit_price, url=url))
+        product = {}
+        for attribute in attributes:
+            product['url'] = url
+            product[attribute.attribute_name] = product_html.xpath(attribute.attribute_xpath)[0].text
+            products.append(product)
 
     return products
 

@@ -2,5 +2,5 @@ from django.urls import path
 from . import views 
 
 urlpatterns = [
-    path('', views.productscraper, name='productscraper'),
+    path('<int:configId>/run', views.productscraper, name='productscraper'),
 ]

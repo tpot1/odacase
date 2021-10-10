@@ -2,21 +2,21 @@ body {
     margin: 20px;
 }
 
-.product-scraper-form {
+.product-scraper-config {
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 700px;
 }
 
-.product-scraper-form .search-bar {
+.product-scraper-config .search-bar {
     width: 700px;
 }
 
-.product-scraper-form .search-config {
+.product-scraper-config .search-config {
     width: 350px;
 }
 
-.product-scraper-form .search-bar-btn {
+.product-scraper-config .search-bar-btn {
     width: 100px;
 }
