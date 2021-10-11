@@ -3,7 +3,7 @@ from django.db import models
 # Product Scraper Config object, for storing the base config of a search
 class PSConfig(models.Model):
     base_url = models.CharField(max_length=200)
-    whitelist = models.CharField(max_length=200)
+    whitelist = models.CharField(max_length=200, null=True, blank=True)
     product_xpath = models.CharField(max_length=200)
 
 # Product Scraper Attribute associates many product attributes to one config object
