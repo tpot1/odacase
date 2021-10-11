@@ -2,22 +2,22 @@ body {
     margin: 20px;
 }
 
-.product-scraper-config {
+.ps-main {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+}
+
+.ps-config {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     gap: 10px;
-    width: 700px;
+    width: 500px;
 }
 
-.product-scraper-config .search-bar {
-    width: 700px;
-}
-
-.product-scraper-config .search-config {
-    width: 350px;
-}
-
-.product-scraper-config .search-bar-btn {
+.ps-config .search-bar-btn {
     width: 100px;
 }
 
@@ -28,9 +28,9 @@ body {
     width: 120px;
     height: 120px;
     animation: spin 2s linear infinite;
-    position: absolute;
-    left: 400px;
-    top: 250px;
+    position: fixed;
+    left: 45%;
+    top: 40%;
   }
   
   @keyframes spin {

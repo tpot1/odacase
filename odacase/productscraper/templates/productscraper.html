@@ -2,24 +2,23 @@
 
 {% block body %}
 <div class="loader" id='loader' style='display: none;'></div>
-<div>
-    <h1>Product Scraper</h1>
-    <div class='product-scraper-config'>
-        <label>Base URL</label>
-        <input name='base_url' class='search-config' value={{ base_url }} disabled/>
+<div class="mb-3 ps-main">
+    <div class='ps-config'>
+        <h1>Web-Crawler and Product Scraper</h1>
+        <label class='form-label'>Base URL</label>
+        <input name='base_url' class='search-config form-control' value={{ base_url }} disabled/>
         
-        <label>Crawler whitelist (comma separated)</label>
-        <input name='whitelist' class='search-config' value={{ whitelist }} disabled/>
+        <label class='form-label'>Crawler whitelist (comma separated)</label>
+        <input name='whitelist' class='search-config form-control' value={{ whitelist }} disabled/>
         
-        <label>Product identifier</label>
-        <input name='product_xpath' class='search-config' value={{ product_xpath }} disabled/>
+        <label class='form-label'>Product identifier</label>
+        <input name='product_xpath' class='search-config form-control' value={{ product_xpath }} disabled/>
 
         {% for attribute in attributes %}
-        <label>{{ attribute.attribute_name }}</label>
-        <input name='product_identifier' class='search-config' value={{attribute.attribute_xpath}} disabled/>
+        <label class='form-label'>{{ attribute.attribute_name }}</label>
+        <input name='product_identifier' class='search-config form-control' value={{attribute.attribute_xpath}} disabled/>
         {% endfor %}
-
-        <input type='submit' class='search-bar-btn' id='submit-btn' value='Search'/>
+        <button type="submit" class=" search-bar-btn btn btn-primary" id='submit-btn'>Search</button>
     </div>
 </div>
 <script>
