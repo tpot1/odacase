@@ -1,10 +1,15 @@
+import csv
+from rest_framework import viewsets
+
 from django.shortcuts import render
 from django.forms import inlineformset_factory
+from django.http import HttpResponse
+
 from .utils import crawl, scrape
 from .models import PSAttribute, PSConfig
 from .forms import PSConfigForm, PSAttributeForm
-import csv
-from django.http import HttpResponse
+from .serializers import PSConfigSerializer
+
 
 def home(request, template='home.html'):
     context = {
@@ -26,6 +31,10 @@ def new(request, template='new.html'):
         'form': formset,
     }
     return render(request, template, context)
+
+class psconfigView(viewsets.ModelViewSet):
+    serializer_class = PSConfigSerializer
+    queryset = PSConfig.objects.all()
 
 def productscraper(request, configId, template='productscraper.html'):
     context = {}
