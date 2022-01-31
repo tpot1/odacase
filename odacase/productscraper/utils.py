@@ -15,8 +15,8 @@ def scrape(url, product_identifier, attributes):
     # Loop over products and extract their metadata
     for product_html in products_html:
         product = {}
+        product['url'] = url
         for attribute in attributes:
-            product['url'] = url
             try:
                 product[attribute.attribute_name] = product_html.xpath(attribute.attribute_xpath)[0].text
             except IndexError:

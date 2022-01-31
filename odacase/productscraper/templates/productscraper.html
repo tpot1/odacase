@@ -5,6 +5,7 @@
 <div class="mb-3 ps-main">
     <div class='ps-config'>
         <h1>Web-Crawler and Product Scraper</h1>
+        <h4>Config</h4>
         <label class='form-label'>Base URL</label>
         <input name='base_url' class='search-config form-control' value={{ base_url }} disabled/>
         
@@ -13,7 +14,8 @@
         
         <label class='form-label'>Product identifier</label>
         <input name='product_xpath' class='search-config form-control' value={{ product_xpath }} disabled/>
-
+        
+        <h4>Attributes</h4>
         {% for attribute in attributes %}
         <label class='form-label'>{{ attribute.attribute_name }}</label>
         <input name='product_identifier' class='search-config form-control' value={{attribute.attribute_xpath}} disabled/>

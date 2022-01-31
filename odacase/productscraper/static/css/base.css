@@ -37,3 +37,11 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+label {
+    display: block;
+}
+
+button, html input[type=button], input[type=reset], input[type=submit] {
+    display: block;
+}

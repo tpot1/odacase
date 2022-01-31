@@ -1,8 +1,31 @@
 from django.shortcuts import render
+from django.forms import inlineformset_factory
 from .utils import crawl, scrape
-from .models import PSConfig
+from .models import PSAttribute, PSConfig
+from .forms import PSConfigForm, PSAttributeForm
 import csv
 from django.http import HttpResponse
+
+def home(request, template='home.html'):
+    context = {
+        'configs' : PSConfig.objects.all()
+    }
+    return render(request, template, context)
+
+def new(request, template='new.html'):
+    config_form_set = inlineformset_factory(PSConfig, PSAttribute, exclude=())
+    if request.method == 'POST':
+        config_form = config_form_set(request.POST)
+        if config_form.is_valid:
+            config = config_form.save()
+            formset = config_form_set(instance=config)
+    else:
+        config = PSConfigForm
+        formset = config_form_set(instance=config)
+    context = {
+        'form': formset,
+    }
+    return render(request, template, context)
 
 def productscraper(request, configId, template='productscraper.html'):
     context = {}

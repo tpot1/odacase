@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div>
+    <h1>Welcome to the product scraper home page!</h1>
+    <h4>Select an existing configuration, or create a new one</h4>
+    <ul>
+    {% for config in configs %}
+    <li><a href='/{{ config.pk }}/run'>{{ config.base_url }}</a></li>
+    {% endfor %}
+    </ul>
+    <a href='/new' class='button'>Create new configuration</a>
+</div>
+{% endblock body %}
