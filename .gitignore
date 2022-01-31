@@ -2,3 +2,4 @@ env
 odacase/static
 .pcy
 __pycache__
+node_modules
