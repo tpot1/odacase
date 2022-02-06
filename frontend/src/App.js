@@ -3,16 +3,14 @@ import Modal from "./components/Modal";
 import axios from "axios";
 
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
       configItems: [],
+      configAttributes: [],
       modal: false,
-      activeItem: {
-        base_url: "",
-        whitelist: "",
-        product_xpath: "",
-      },
+      activeItemId: null,
     };
   }
 
@@ -23,7 +21,15 @@ class App extends Component {
   refreshList = () => {
     axios
       .get("/api/config/")
-      .then((res) => this.setState({ configItems: res.data }))
+      .then((res) => {
+        this.setState({ configItems: res.data })
+      })
+      .catch((err) => console.log(err));
+    axios
+      .get("/api/attribute/")
+      .then((res) => {
+        this.setState({ configAttributes: res.data })
+      })
       .catch((err) => console.log(err));
   };
 
@@ -31,18 +37,29 @@ class App extends Component {
     this.setState({ modal: !this.state.modal });
   };
 
-  handleSubmit = (item) => {
+  handleSubmit = (item, attributes) => {
     this.toggle();
 
+    let promises = [];
+
+    attributes.forEach(a => {
+      if (a.id) {
+        promises.push(axios.put(`/api/attribute/${a.id}/`, a));
+      }
+      else {
+        promises.push(axios.post("/api/attribute/", a));
+      }
+    })
+
     if (item.id) {
-      axios
-        .put(`/api/config/${item.id}/`, item)
-        .then((res) => this.refreshList());
-      return;
+      promises.push(axios.put(`/api/config/${item.id}/`, item));
     }
-    axios
-      .post("/api/config/", item)
-      .then((res) => this.refreshList());
+    else {
+      promises.push(axios.post("/api/config/", item));
+    }
+
+    Promise.all(promises).then((res) => this.refreshList());
+    
   };
 
   handleDelete = (item) => {
@@ -54,11 +71,11 @@ class App extends Component {
   createItem = () => {
     const item = { base_url: "", whitelist: "", product_xpath: "" };
 
-    this.setState({ activeItem: item, modal: !this.state.modal });
+    this.setState({ activeItemId: item.id, modal: !this.state.modal });
   };
 
   editItem = (item) => {
-    this.setState({ activeItem: item, modal: !this.state.modal });
+    this.setState({ activeItemId: item.id, modal: !this.state.modal });
   };
 
 
@@ -115,7 +132,8 @@ class App extends Component {
         </div>
         {this.state.modal ? (
           <Modal
-            activeItem={this.state.activeItem}
+            configItem={this.state.configItems.find(a => a.id === this.state.activeItemId)}
+            configAttributes={this.state.configAttributes.filter(a => a.ps_config === this.state.activeItemId)}
             toggle={this.toggle}
             onSave={this.handleSubmit}
           />

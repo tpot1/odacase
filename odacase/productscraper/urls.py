@@ -4,6 +4,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'config', views.psconfigView, 'config')
+router.register(r'attribute', views.psattributeView, 'attribute')
 
 urlpatterns = [
     path('', views.home, name='home'),

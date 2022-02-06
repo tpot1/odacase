@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from .utils import crawl, scrape
 from .models import PSAttribute, PSConfig
 from .forms import PSConfigForm, PSAttributeForm
-from .serializers import PSConfigSerializer
+from .serializers import PSConfigSerializer, PSAttributeSerializer
 
 
 def home(request, template='home.html'):
@@ -35,6 +35,10 @@ def new(request, template='new.html'):
 class psconfigView(viewsets.ModelViewSet):
     serializer_class = PSConfigSerializer
     queryset = PSConfig.objects.all()
+
+class psattributeView(viewsets.ModelViewSet):
+    serializer_class = PSAttributeSerializer
+    queryset = PSAttribute.objects.all()
 
 def productscraper(request, configId, template='productscraper.html'):
     context = {}
